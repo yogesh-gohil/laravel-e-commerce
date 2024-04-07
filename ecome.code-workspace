@@ -1,0 +1,36 @@
+{
+  "folders": [
+      {
+          "path": "."
+      }
+  ],
+  "settings": {
+      "search.exclude": {
+          "**/public": true
+      },
+      "cSpell.words": [
+      ],
+      "prettier.enable": false,
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+      "files.associations": {
+          "*.css": "postcss"
+      },
+      "editor.formatOnSave": false,
+      "[php]": {
+          "editor.defaultFormatter": "junstyle.php-cs-fixer"
+      },
+      "debug.allowBreakpointsEverywhere": true,
+      "files.autoGuessEncoding": true,
+      "files.exclude": {
+          "**/.vscode": true,
+          "compile_commands.json": true,
+          "*.hrccproj": true,
+          "*.sln": true,
+          "*.suo": true
+      },
+
+      "vite.port": 3000
+  }
+}

@@ -1,0 +1,28 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+
+// Primary Theme
+//----------------------------------
+
+@import "theme.scss";
+@import "toastr";
+
+
+body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    @apply transition-colors duration-100;
+}
+
+
+html {
+    height: -webkit-fill-available;
+}
+
+input {
+  color-scheme: dark;
+}
