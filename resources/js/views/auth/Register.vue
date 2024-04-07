@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
         label="Name"
         required
       >
-        <BaseInput
+        <InputText
           v-model="userStore.registerData.name"
           :invalid="v$.name.$error"
           focus
@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
         label="Email"
         required
       >
-        <BaseInput
+        <InputText
           v-model="userStore.registerData.email"
           :invalid="v$.email.$error"
           type="email"
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
         label="Password"
         required
       >
-        <BaseInput
+        <InputText
           v-model="userStore.registerData.password"
           :invalid="v$.password.$error"
           type="password"
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
             && v$.password_confirmation.$errors[0].$message
         "
       >
-        <BaseInput
+        <InputText
           v-model="userStore.registerData.password_confirmation"
           :invalid="v$.password_confirmation.$error"
           type="password"
