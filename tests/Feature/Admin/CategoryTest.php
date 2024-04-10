@@ -14,19 +14,19 @@ beforeEach(function () {
 
 
 test('get categories', function () {
-  $items = Category::factory()->count(4)->create();
+    Category::factory()->count(4)->create();
 
-  $this->get('/api/categories')->assertOk()->assertJsonCount(4, 'data')->assertJsonStructure([
-    'data' => [
-        '*' => [
-            'id',
-            'name',
-            'image',
-            'parent_id',
-            'created_at',`
+    $this->get('/api/categories')->assertOk()->assertJsonCount(4, 'data')->assertJsonStructure([
+        'data' => [
+            '*' => [
+                'id',
+                'name',
+                'image',
+                'parent_id',
+                'created_at',
+            ],
         ],
-    ],
-]);
+    ]);
 });
 
 test('create category', function () {
@@ -49,20 +49,13 @@ test('get category', function () {
 });
 
 test('update category', function () {
-  // $category = Category::factory()->create();
-
-  // $newCategory = Category::factory()->raw();
-
-  // $this->putJson("api/categories/{$category->id}", $newCategory)->assertStatus(200);
-
-  // $this->assertDatabaseHas('categories', array_slice($newCategory, 0, 1));
   $category = Category::factory()->create();
 
   $newCategory = Category::factory()->raw();
 
-  $this->putJson("api/v1/items/{$category->id}", $newCategory)->assertOk();
+  $this->putJson("api/categories/{$category->id}", $newCategory)->assertOk();
 
-  $this->assertDatabaseHas('items', [
+  $this->assertDatabaseHas('categories', [
       'id' => $category->id,
       'name' => $newCategory['name'],
       'image' => $newCategory['image'],
@@ -74,8 +67,7 @@ test('update category', function () {
 test('delete Category', function () {
   $category = Category::factory()->create();
 
-  deleteJson('api/categories/'.$category->id)->assertStatus(200);
+  $this->deleteJson('api/categories/'.$category->id)->assertStatus(200);
 
   $this->assertDeleted($category);
 });
-

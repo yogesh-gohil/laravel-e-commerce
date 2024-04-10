@@ -1,11 +1,11 @@
 <script setup>
 const pageHeader = {
-  title: 'Categories',
+  title: 'Products',
   breadcrumb: [
-    { label: 'Categories', route: '/categories' },
+    { label: 'Products', route: '/products' },
   ],
 }
-const categoryStore = useCategoryStore()
+const productStore = useProductStore()
 const totalRecords = ref(0)
 const loading = ref(false)
 
@@ -14,12 +14,12 @@ const params = reactive({
   limit: 5,
 })
 
-fetchCategories()
+fetchProducts()
 
-async function fetchCategories() {
+async function fetchProducts() {
   loading.value = true
 
-  const res = await categoryStore.fetchCategories(params)
+  const res = await productStore.fetchProducts(params)
 
   totalRecords.value = res.data.meta.total
 
@@ -28,7 +28,7 @@ async function fetchCategories() {
 
 function onPage({ page }) {
   params.page = page + 1
-  fetchCategories()
+  fetchProducts()
 }
 </script>
 
@@ -36,21 +36,21 @@ function onPage({ page }) {
   <BasePage>
     <BasePageHeader :data="pageHeader">
       <template #actions>
-        <RouterLink :to="{ name: 'categories.create' }">
-          <Button label="Add Category" icon="pi pi-plus" />
+        <RouterLink :to="{ name: 'products.create' }">
+          <Button>Add New Product </Button>
         </RouterLink>
       </template>
     </BasePageHeader>
-    <BaseEmptyPlaceholder v-if="!categoryStore.categories.length" title="No Categories Found!" description="This section contains categories.">
+    <BaseEmptyPlaceholder v-if="!productStore.products.length" title="No Products Found!" description="This section contains products.">
       <template #action>
-        <RouterLink :to="{ name: 'categories.create' }">
-          <Button outlined icon="pi pi-plus" label="Add Category" />
+        <RouterLink :to="{ name: 'products.create' }">
+          <Button outlined icon="pi pi-plus" label="Add Product" />
         </RouterLink>
       </template>
     </BaseEmptyPlaceholder>
     <DataTable
       v-else
-      :value="categoryStore.categories"
+      :value="productStore.products"
       :rows="5"
       :total-records="totalRecords"
       :loading="loading"

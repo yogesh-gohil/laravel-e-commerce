@@ -16,11 +16,11 @@ const routes = ref([
     name: 'Category',
     icon: 'pi pi-th-large',
   },
-  // {
-  //   route: '/products',
-  //   name: 'Products',
-  //   icon: 'pi pi-shopping-bag',
-  // },
+  {
+    route: '/products',
+    name: 'Products',
+    icon: 'pi pi-shopping-bag',
+  },
 ])
 </script>
 

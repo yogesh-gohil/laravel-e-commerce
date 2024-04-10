@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Avatar: typeof import('primevue/avatar')['default']
     BaseDateFormat: typeof import('./components/base/BaseDateFormat.vue')['default']
+    BaseEmptyPlaceholder: typeof import('./components/base/BaseEmptyPlaceholder.vue')['default']
     BaseInputGrid: typeof import('./components/base/BaseInputGrid.vue')['default']
     BaseInputGroup: typeof import('./components/base/BaseInputGroup.vue')['default']
     BasePage: typeof import('./components/base/BasePage.vue')['default']
