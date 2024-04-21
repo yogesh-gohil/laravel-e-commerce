@@ -61,11 +61,21 @@ function onPage({ page }) {
       class="mt-10"
       @page="onPage"
     >
+      <Column field="image" header="Image">
+        <template #body="slotProps">
+          <img :src="slotProps.data.image" class="h-10 w-10 rounded-md">
+        </template>
+      </Column>
       <Column field="name" header="Name" />
 
       <Column field="created_at" header="Added ON">
         <template #body="slotProps">
           <BaseDateFormat :date="slotProps.data.created_at" />
+        </template>
+      </Column>
+      <Column header-style="width: 5rem; text-align: center" body-style="text-align: center; overflow: visible">
+        <template #body>
+          <Button type="button" icon="pi pi-cog" rounded />
         </template>
       </Column>
     </DataTable>

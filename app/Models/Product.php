@@ -36,6 +36,37 @@ class Product extends Model implements HasMedia
     ];
   }
 
+
+  public function getCoverPhotoAttribute()
+  {
+    $cover_photo = $this->getMedia('cover_photo')->first();
+
+    if (! $cover_photo) {
+        return null;
+    }
+
+    if ($cover_photo->disk == 'local') {
+        return $cover_photo->getPath();
+    }
+
+    if ($cover_photo->disk == 'public') {
+        return $cover_photo->getFullUrl();
+    }
+  }
+
+  public function getProductPhotosAttribute()
+  {
+    $photos = $this->getMedia('product_photos');
+
+    if ($photos) {
+        foreach ($photos as $image) {
+            $image->url = $image->getFullUrl();
+        }
+    }
+
+    return $photos;
+  }
+
   public function newEloquentBuilder($builder)
   {
     return new ProductBuilder($builder);
@@ -49,6 +80,20 @@ class Product extends Model implements HasMedia
   public static function createProduct($request) {
     $payload = $request->getProductPayload();
 
+    $product = self::create($payload);
+
+    if ($request->hasFile('cover_photo') && request()->file('cover_photo')->isValid()) {
+        $product->addMediaFromRequest('cover_photo')->toMediaCollection('cover_photo');
+    }
+
+    if ($request->hasFile('photos')) {
+        $product->addMultipleMediaFromRequest(['photos'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('product_photos');
+            });
+    }
+
+    return $product;
   }
 
 }

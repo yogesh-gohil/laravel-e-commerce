@@ -1,18 +1,19 @@
+import { productStub } from '../../js/stub/product'
+
 export const useProductStore = defineStore({
   id: 'product',
 
   state: () => ({
     products: [],
-    productData: {
-      name: '',
-      image: '',
+    currentProduct: {
+      ...productStub.currentProduct,
     },
   }),
 
   actions: {
     resetData() {
-      this.productData = {
-        name: '',
+      this.currentProduct = {
+        ...productStub.currentProduct,
       }
     },
     fetchProducts(params) {
@@ -33,7 +34,7 @@ export const useProductStore = defineStore({
         axios
           .get(`/api/products/${id}`)
           .then((response) => {
-            this.productData = response.data.data
+            this.currentProduct = response.data.data
             resolve(response)
           })
           .catch((err) => {

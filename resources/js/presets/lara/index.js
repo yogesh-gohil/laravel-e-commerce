@@ -10,6 +10,7 @@ import datatable from './datatable'
 import dialog from './dialog'
 import divider from './divider'
 import dropdown from './dropdown'
+import fileupload from './fileupload'
 import global from './global'
 import image from './image'
 import inlinemessage from './inlinemessage'
@@ -49,6 +50,7 @@ export default {
 
   // forms
   dropdown,
+  fileupload,
   inputnumber,
   inputtext,
   calendar,

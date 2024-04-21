@@ -1,10 +1,5 @@
 <script setup>
-const pageHeader = {
-  title: 'Products',
-  breadcrumb: [
-    { label: 'Products', route: '/products' },
-  ],
-}
+const { productIndexHeader } = usePageHeader()
 const productStore = useProductStore()
 const totalRecords = ref(0)
 const loading = ref(false)
@@ -34,10 +29,10 @@ function onPage({ page }) {
 
 <template>
   <BasePage>
-    <BasePageHeader :data="pageHeader">
+    <BasePageHeader :data="productIndexHeader">
       <template #actions>
         <RouterLink :to="{ name: 'products.create' }">
-          <Button>Add New Product </Button>
+          <Button icon="pi pi-plus" label="Add Product" />
         </RouterLink>
       </template>
     </BasePageHeader>
@@ -61,8 +56,17 @@ function onPage({ page }) {
       class="mt-10"
       @page="onPage"
     >
+      <Column field="cover_photo" header="Cover photo">
+        <template #body="slotProps">
+          <img :src="slotProps.data.cover_photo" class="h-10 w-10 rounded-md">
+        </template>
+      </Column>
       <Column field="name" header="Name" />
-
+      <Column field="category" header="Category">
+        <template #body="slotProps">
+          {{ slotProps.data.category.name }}
+        </template>
+      </Column>
       <Column field="created_at" header="Added ON">
         <template #body="slotProps">
           <BaseDateFormat :date="slotProps.data.created_at" />

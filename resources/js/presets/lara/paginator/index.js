@@ -2,7 +2,7 @@ export default {
   root: {
     class: [
       // Flex & Alignment
-      'flex items-center justify-center flex-wrap',
+      'flex items-center justify-center flex-wrap rounded-lg',
 
       // Spacing
       'px-4 py-2 my-5',

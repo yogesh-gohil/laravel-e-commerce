@@ -2,9 +2,9 @@
 const route = useRoute()
 const router = useRouter()
 const categoryStore = useCategoryStore()
-const isLoading = ref(false)
+const isSubmitting = ref(false)
 const isFetching = ref(false)
-const file = ref<File | null>()
+const categoryPhoto = ref<File | null>()
 // const form = ref<HTMLFormElement>()
 
 const isEdit = computed (() => route.name === 'categories.edit')
@@ -36,11 +36,12 @@ async function onSubmit() {
 
   if (v$.value.$invalid)
     return true
-  isLoading.value = true
+  isSubmitting.value = true
 
   const data = {
     id: route.params.id,
     ...categoryStore.categoryData,
+    image: categoryPhoto.value.file,
   }
 
   const action = isEdit.value
@@ -48,24 +49,13 @@ async function onSubmit() {
     : categoryStore.addCategory
 
   try {
-    isLoading.value = true
+    isSubmitting.value = true
     await action(data)
     router.push({ name: 'categories.index' })
   }
   finally {
-    // if (isEdit.value)
-    // toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 })
-    // else
-    // toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 })
-
-    isLoading.value = false
+    isSubmitting.value = false
   }
-}
-
-function onFileChanged($event: Event) {
-  const target = $event.target as HTMLInputElement
-  if (target && target.files)
-    categoryStore.categoryData.image = target.files[0]
 }
 
 onBeforeUnmount(() => {
@@ -86,7 +76,7 @@ const pageHeader = {
     <Toast />
     <BasePageHeader :data="pageHeader" />
 
-    <Card class="w-1/2 mt-6">
+    <Card class="w-full md:w-1/2 mt-6">
       <template #content>
         <form class="mt-18 text-left" @submit.prevent="onSubmit">
           <BaseInputGrid layout="column">
@@ -95,16 +85,16 @@ const pageHeader = {
               label="Image"
               required
             >
-              <InputText
+              <BaseDropZone key="cover" v-model="categoryPhoto" class="!w-full" />
+              <!-- <InputText
                 type="file"
                 accept="image/*"
                 capture
                 @change="onFileChanged($event)"
-              />
+              /> -->
               <!-- <InputText v-model="categoryStore.categoryData.name" :invalid="v$.name.$error" /> -->
             </BaseInputGroup>
-          </BaseInputGrid>
-          <BaseInputGrid layout="column">
+
             <BaseInputGroup
               :error="v$.name.$error && v$.name.$errors[0].$message"
               label="Name"
@@ -114,10 +104,10 @@ const pageHeader = {
             </BaseInputGroup>
           </BaseInputGrid>
           <Button
-            :disabled="isLoading"
+            :disabled="isSubmitting"
             type="submit"
             class="mt-8"
-            :loading="isLoading"
+            :loading="isSubmitting"
           >
             Save
           </Button>

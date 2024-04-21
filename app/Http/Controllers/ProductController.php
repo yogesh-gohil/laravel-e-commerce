@@ -30,7 +30,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $product = Product::create($request->getProductPayload());
+        $product = Product::createProduct($request);
+
 
         return new ProductResource($product);
     }

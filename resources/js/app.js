@@ -15,6 +15,7 @@ import 'primeicons/primeicons.css'
 
 import '../sass/app.scss'
 import 'v-tooltip/dist/v-tooltip.css'
+import '@vueform/multiselect/themes/default.css'
 
 const app = createApp(App)
 

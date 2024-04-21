@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
+
 
 class ProductRequest extends FormRequest
 {
@@ -28,6 +30,19 @@ class ProductRequest extends FormRequest
             'name' => [
                 'string',
                 'required'
+            ],
+            'cover_photo' => [
+                'nullable',
+                File::image()
+                    ->types(['png', 'jpeg', 'jpg'])
+                    ->max('1mb'),
+            ],
+            'photos' => [
+                'nullable',
+                'array',
+                // File::image()
+                //     ->types(['png', 'jpeg', 'jpg'])
+                //     ->max('1mb'),
             ],
             'category_id' => [
                 'required',
@@ -62,6 +77,10 @@ class ProductRequest extends FormRequest
     public function getProductPayload()
     {
         return collect($this->validated())
+            ->except([
+                'cover_photo',
+                'photos',
+            ])
             ->toArray();
     }
 }

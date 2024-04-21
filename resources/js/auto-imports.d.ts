@@ -2,6 +2,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const Multiselect: typeof import('@vueform/multiselect')['Multiselect']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -170,7 +171,9 @@ declare global {
   const useFavicon: typeof import('@vueuse/core')['useFavicon']
   const useFetch: typeof import('@vueuse/core')['useFetch']
   const useFileDialog: typeof import('@vueuse/core')['useFileDialog']
+  const useFileList: typeof import('./composables/useFileList.js')['useFileList']
   const useFileSystemAccess: typeof import('@vueuse/core')['useFileSystemAccess']
+  const useFileUploader: typeof import('./composables/useFileUploader.js')['useFileUploader']
   const useFocus: typeof import('@vueuse/core')['useFocus']
   const useFocusWithin: typeof import('@vueuse/core')['useFocusWithin']
   const useFps: typeof import('@vueuse/core')['useFps']
@@ -205,6 +208,7 @@ declare global {
   const useObjectUrl: typeof import('@vueuse/core')['useObjectUrl']
   const useOffsetPagination: typeof import('@vueuse/core')['useOffsetPagination']
   const useOnline: typeof import('@vueuse/core')['useOnline']
+  const usePageHeader: typeof import('./composables/usePageHeader.js')['usePageHeader']
   const usePageLeave: typeof import('@vueuse/core')['usePageLeave']
   const useParallax: typeof import('@vueuse/core')['useParallax']
   const usePermission: typeof import('@vueuse/core')['usePermission']
@@ -283,6 +287,7 @@ declare global {
 declare module 'vue' {
   interface ComponentCustomProperties {
     EffectScope: typeof import('vue')['EffectScope']
+    Multiselect: typeof import('@vueform/multiselect')['Multiselect']
     acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
     asyncComputed: typeof import('@vueuse/core')['asyncComputed']
     autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -451,7 +456,9 @@ declare module 'vue' {
     useFavicon: typeof import('@vueuse/core')['useFavicon']
     useFetch: typeof import('@vueuse/core')['useFetch']
     useFileDialog: typeof import('@vueuse/core')['useFileDialog']
+    useFileList: typeof import('./composables/useFileList.js')['useFileList']
     useFileSystemAccess: typeof import('@vueuse/core')['useFileSystemAccess']
+    useFileUploader: typeof import('./composables/useFileUploader.js')['useFileUploader']
     useFocus: typeof import('@vueuse/core')['useFocus']
     useFocusWithin: typeof import('@vueuse/core')['useFocusWithin']
     useFps: typeof import('@vueuse/core')['useFps']
@@ -486,6 +493,7 @@ declare module 'vue' {
     useObjectUrl: typeof import('@vueuse/core')['useObjectUrl']
     useOffsetPagination: typeof import('@vueuse/core')['useOffsetPagination']
     useOnline: typeof import('@vueuse/core')['useOnline']
+    usePageHeader: typeof import('./composables/usePageHeader.js')['usePageHeader']
     usePageLeave: typeof import('@vueuse/core')['usePageLeave']
     useParallax: typeof import('@vueuse/core')['useParallax']
     usePermission: typeof import('@vueuse/core')['usePermission']
