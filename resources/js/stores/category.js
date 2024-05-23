@@ -33,7 +33,7 @@ export const useCategoryStore = defineStore({
         axios
           .get(`/api/categories/${id}`)
           .then((response) => {
-            this.businessData = response.data.data
+            this.categoryData = response.data.data
             resolve(response)
           })
           .catch((err) => {
@@ -56,7 +56,7 @@ export const useCategoryStore = defineStore({
     updateCategory(data) {
       return new Promise((resolve, reject) => {
         axios
-          .put(`/api/categories/${data.id}`, data)
+          .postForm(`/api/categories/${data.id}`, data)
           .then((response) => {
             resolve(response)
           })

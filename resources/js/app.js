@@ -3,9 +3,8 @@ import { VTooltip } from 'v-tooltip'
 import PrimeVue from 'primevue/config'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import './bootstrap'
-import Ripple from 'primevue/ripple'
 import ToastService from 'primevue/toastservice'
+import Ripple from 'primevue/ripple'
 
 import StyleClass from 'primevue/styleclass'
 import Lara from './presets/lara'
@@ -16,6 +15,7 @@ import 'primeicons/primeicons.css'
 import '../sass/app.scss'
 import 'v-tooltip/dist/v-tooltip.css'
 import '@vueform/multiselect/themes/default.css'
+import './bootstrap'
 
 const app = createApp(App)
 

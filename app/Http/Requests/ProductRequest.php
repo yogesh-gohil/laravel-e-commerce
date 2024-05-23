@@ -44,6 +44,10 @@ class ProductRequest extends FormRequest
                 //     ->types(['png', 'jpeg', 'jpg'])
                 //     ->max('1mb'),
             ],
+            'removed_photos' => [
+                'nullable',
+                'array',
+            ],
             'category_id' => [
                 'required',
                 Rule::exists('categories', 'id'),

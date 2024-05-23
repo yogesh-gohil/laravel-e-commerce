@@ -46,8 +46,10 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
+
       $payload = $request->getCategoryPayload();
-      $category->update($payload);
+
+      $category->updateCategory($payload);
 
       return new CategoryResource($category);
     }

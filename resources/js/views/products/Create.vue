@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect'
+
+import { useToast } from 'primevue/usetoast'
 const route = useRoute()
 const router = useRouter()
 const productStore = useProductStore()
@@ -10,7 +12,8 @@ const { productCreateHeader } = usePageHeader()
 const isEdit = computed (() => route.name === 'products.edit')
 const coverPhoto = ref(null)
 const otherPhotos = ref([])
-
+const removedPhotos = ref([])
+const toast = useToast()
 const rules = computed(() => {
   return {
     name: {
@@ -65,9 +68,12 @@ const onSubmit = async () => {
   const data = {
     id: route.params.id,
     ...productStore.currentProduct,
-    cover_photo: coverPhoto.value?.file,
-    photos: otherPhotos.value.map(photo => photo?.file),
+    photos: otherPhotos.value.map(photo => photo.file ? photo.file : null).filter(p => p !== null),
+    removed_photos: removedPhotos.value,
   }
+
+  if (coverPhoto.value)
+    data.cover_photo = coverPhoto.value?.file
 
   const action = isEdit.value
     ? productStore.updateProduct
@@ -75,7 +81,15 @@ const onSubmit = async () => {
 
   try {
     isLoading.value = true
-    await action(data)
+    const res = await action(data)
+    if (res.data) {
+      toast.add({
+        severity: 'success',
+        detail: isEdit.value ? 'Product updated successfully' : 'Product created successfully',
+        life: 2000,
+      })
+    }
+
     router.push({ name: 'products.index' })
   }
   finally {
@@ -88,21 +102,27 @@ onBeforeUnmount(() => {
   v$.value.$reset()
 })
 
-// const { uploadFiles } = useFileUploader('YOUR URL HERE')
+const removePhotos = (file: any) => {
+  removedPhotos.value.push(file.id)
+}
+
+const removeCoverPhoto = () => {
+  productStore.currentProduct.cover_photo = 'null'
+}
 </script>
 
 <template>
   <BasePage>
     <BasePageHeader :data="productCreateHeader" />
 
-    <Card class="w-full mt-6">
+    <Card v-if="!isFetching" class="w-full mt-6">
       <template #content>
         <form class="mb-1 text-left" @submit.prevent="onSubmit">
           <BaseInputGroup
             label="Product Cover"
             class="mb-6"
           >
-            <BaseDropZone key="cover" v-model="coverPhoto" />
+            <BaseDropZone key="cover" v-model="coverPhoto" :images="[productStore.currentProduct.cover_photo]" @remove="removeCoverPhoto" />
           </BaseInputGroup>
 
           <BaseInputGrid>
@@ -160,7 +180,7 @@ onBeforeUnmount(() => {
               <InputNumber v-model="productStore.currentProduct.stock" />
             </BaseInputGroup>
           </BaseInputGrid>
-          <BaseDropZone key="photos" v-model="otherPhotos" multiple class="mt-6" />
+          <BaseDropZone key="photos" v-model="otherPhotos" multiple class="mt-6" :images="productStore.currentProduct.product_photos" @remove="removePhotos" />
           <Button
             :disabled="isLoading"
             type="submit"

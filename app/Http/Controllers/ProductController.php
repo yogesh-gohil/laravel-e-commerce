@@ -47,11 +47,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $payload = $request->getCategoryPayload();
-
-        $product->update($payload);
+        $product->updateProduct($request);
 
         return new ProductResource($product);
     }

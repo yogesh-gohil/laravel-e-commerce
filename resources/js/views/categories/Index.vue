@@ -5,10 +5,11 @@ const pageHeader = {
     { label: 'Categories', route: '/categories' },
   ],
 }
+const route = useRoute()
+const router = useRouter()
 const categoryStore = useCategoryStore()
 const totalRecords = ref(0)
 const loading = ref(false)
-
 const params = reactive({
   page: 0,
   limit: 5,
@@ -27,8 +28,12 @@ async function fetchCategories() {
 }
 
 function onPage({ page }) {
-  params.page = page + 1
+  params.page += page
   fetchCategories()
+}
+
+function toggle(event) {
+  categoryRef.value.toggle(event)
 }
 </script>
 
@@ -61,9 +66,9 @@ function onPage({ page }) {
       class="mt-10"
       @page="onPage"
     >
-      <Column field="image" header="Image">
+      <Column field="cover_url" header="Image">
         <template #body="slotProps">
-          <img :src="slotProps.data.image" class="h-10 w-10 rounded-md">
+          <img :src="slotProps.data.cover_url" class="h-10 w-10 rounded-md">
         </template>
       </Column>
       <Column field="name" header="Name" />
@@ -74,8 +79,10 @@ function onPage({ page }) {
         </template>
       </Column>
       <Column header-style="width: 5rem; text-align: center" body-style="text-align: center; overflow: visible">
-        <template #body>
-          <Button type="button" icon="pi pi-cog" rounded />
+        <template #body="slotProps">
+          <router-link :to="{ name: 'categories.edit', params: { id: slotProps.data.id } }">
+            <i class="pi pi-pencil h-10 w-10" />
+          </router-link>
         </template>
       </Column>
     </DataTable>

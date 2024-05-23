@@ -8,9 +8,13 @@ const props = defineProps({
     type: [Array, Object],
     default: () => [],
   },
+  images: {
+    type: Array,
+    default: () => [],
+  },
 })
-const emit = defineEmits(['onDrop', 'onChange', 'update:modelValue'])
-const { files, addFiles, removeFile } = useFileList()
+const emit = defineEmits(['onDrop', 'onChange', 'update:modelValue', 'remove'])
+const { files, addFiles, removeFile, addLocalFile } = useFileList()
 const uniqid = Date.now()
 const active = ref(false)
 let inActiveTimeout = null
@@ -62,10 +66,24 @@ const onInputChange = (e) => {
 
 const events = ['dragenter', 'dragover', 'dragleave', 'drop']
 
+const emitRemove = (file) => {
+  emit('remove', file)
+  removeFile(file)
+}
+
+const setImages = () => {
+  if (toRaw(props.images)) {
+    props.images.forEach((image) => {
+      addLocalFile(image)
+    })
+  }
+}
+
 onMounted(() => {
   events.forEach((eventName) => {
     document.body.addEventListener(eventName, preventDefaults)
   })
+  setImages()
 })
 
 onUnmounted(() => {
@@ -93,10 +111,8 @@ onUnmounted(() => {
 
       <input v-bind="$attrs" :id="`file-input-${uniqid}`" type="file" class="opacity-0 cursor-pointer hidden" :multiple="multiple" @change="onInputChange">
     </label>
-
-    <ul v-show="files.length" class="flex flex-wrap list-none" :class="!multiple ? 'justify-center items-center' : ''">
-      <BaseFilePreview v-for="file of files" :key="file.id" :file="file" tag="li" @remove="removeFile" />
+    <ul v-if="files.length || images.length" class="flex flex-wrap list-none" :class="!multiple ? 'justify-center items-center' : ''">
+      <BaseFilePreview v-for="file of files" :key="file.id" :file="file" tag="li" @remove="emitRemove" />
     </ul>
-    <!-- <slot :drop-zone-active="active" /> -->
   </div>
 </template>

@@ -19,7 +19,12 @@ export function useFileList() {
       files.value.splice(index, 1)
   }
 
-  return { files, addFiles, removeFile }
+  function addLocalFile(file) {
+    const data = { id: file.id, url: file.original_url, name: file.name }
+    files.value = files.value.concat(data)
+  }
+
+  return { files, addFiles, removeFile, addLocalFile }
 }
 
 class UploadableFile {

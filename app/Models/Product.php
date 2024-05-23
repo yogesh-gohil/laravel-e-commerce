@@ -45,13 +45,7 @@ class Product extends Model implements HasMedia
         return null;
     }
 
-    if ($cover_photo->disk == 'local') {
-        return $cover_photo->getPath();
-    }
-
-    if ($cover_photo->disk == 'public') {
-        return $cover_photo->getFullUrl();
-    }
+    return $cover_photo;
   }
 
   public function getProductPhotosAttribute()
@@ -64,7 +58,7 @@ class Product extends Model implements HasMedia
         }
     }
 
-    return $photos;
+    return $photos->toArray();
   }
 
   public function newEloquentBuilder($builder)
@@ -94,6 +88,39 @@ class Product extends Model implements HasMedia
     }
 
     return $product;
+  }
+
+  public function updateProduct($request) {
+    $product = self::find($this->id);
+    $payload = $request->getProductPayload();
+
+    $this->update($payload);
+
+    if ($request->has('removed_photos')) {
+        foreach ($request->removed_photos as $mediaId) {
+            $mediaItem = $this->getMedia('product_photos')->where('id', $mediaId)->first();
+
+            if ($mediaItem) {
+                $mediaItem->delete();
+            }
+        }
+    }
+
+    if ($request->hasFile('photos')) {
+        $product->addMultipleMediaFromRequest(['photos'])
+            ->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection('product_photos');
+        });
+    }
+
+    if (request()->hasFile('cover_photo')) {
+        $this->clearMediaCollection('cover_photo');
+
+        $this->addMediaFromRequest('cover_photo')
+        ->toMediaCollection('cover_photo');
+    }
+
+    return $this;
   }
 
 }

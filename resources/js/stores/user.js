@@ -1,5 +1,3 @@
-import toastr from 'toastr'
-
 export const useUserStore = defineStore({
   id: 'user',
 
@@ -27,7 +25,7 @@ export const useUserStore = defineStore({
             axios
               .post('/api/login', data)
               .then((response) => {
-                toastr.success('Login successful')
+                // toastr.success('Login successful')
                 resolve(response)
               })
               .catch((err) => {
@@ -38,12 +36,11 @@ export const useUserStore = defineStore({
       })
     },
     logout(data) {
-      console.log('logout')
       return new Promise((resolve, reject) => {
         axios
           .post('/logout', data)
           .then((response) => {
-            toastr.success('Logout successful')
+            // toastr.success('Logout successful')
             resolve(response)
           })
           .catch((err) => {
@@ -56,7 +53,7 @@ export const useUserStore = defineStore({
         axios
           .post('/api/register', data)
           .then((response) => {
-            toastr.success('Register successful')
+            // toastr.success('Register successful')
             resolve(response)
           })
           .catch((err) => {

@@ -1,5 +1,5 @@
-
 <template>
+  <Toast />
   <div
     class="grid h-screen grid-cols-12 overflow-y-auto bg-gray-100 dark:bg-gray-900"
   >
@@ -7,7 +7,9 @@
       class="flex items-start md:items-center w-full max-w-md col-span-12 p-4 mx-auto text-gray-900 md:p-8 md:col-span-6 lg:col-span-4 flex-2 pt-20 relative"
     >
       <div class="w-full">
-        <h1 class="text-center font-medium text-xl">MY APP</h1>
+        <LogoBlack class="sm:w-60 w-auto dark:hidden " />
+        <LogoWhite class="sm:w-60 w-auto hidden dark:flex " />
+
         <router-view />
 
         <div
@@ -28,7 +30,7 @@
         <h1
           class="hidden mb-3 text-5xl leading-normal text-left text-white xl:text-6xl xl:leading-tight md:none lg:block font-semibold"
         >
-          Welcome to My App
+          Welcome to Hypergrid
         </h1>
         <p
           class="hidden text-sm not-italic font-normal leading-normal text-left text-gray-100 xl:text-lg xl:leading-6 md:none lg:block"

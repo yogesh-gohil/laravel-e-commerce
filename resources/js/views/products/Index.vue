@@ -56,9 +56,9 @@ function onPage({ page }) {
       class="mt-10"
       @page="onPage"
     >
-      <Column field="cover_photo" header="Cover photo">
+      <Column field="cover_url" header="Cover photo">
         <template #body="slotProps">
-          <img :src="slotProps.data.cover_photo" class="h-10 w-10 rounded-md">
+          <img :src="slotProps.data.cover_url" class="h-10 w-10 rounded-md">
         </template>
       </Column>
       <Column field="name" header="Name" />
@@ -70,6 +70,13 @@ function onPage({ page }) {
       <Column field="created_at" header="Added ON">
         <template #body="slotProps">
           <BaseDateFormat :date="slotProps.data.created_at" />
+        </template>
+      </Column>
+      <Column header-style="width: 5rem; text-align: center" body-style="text-align: center; overflow: visible">
+        <template #body="slotProps">
+          <router-link :to="{ name: 'products.edit', params: { id: slotProps.data.id } }">
+            <i class="pi pi-pencil h-10 w-10" />
+          </router-link>
         </template>
       </Column>
     </DataTable>

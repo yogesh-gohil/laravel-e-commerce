@@ -55,9 +55,10 @@ export const useProductStore = defineStore({
       })
     },
     updateProduct(data) {
+      data._method = 'PUT'
       return new Promise((resolve, reject) => {
         axios
-          .put(`/api/products/${data.id}`, data)
+          .postForm(`/api/products/${data.id}`, data)
           .then((response) => {
             resolve(response)
           })
