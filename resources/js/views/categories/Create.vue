@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { useToast } from 'primevue/usetoast'
+
 const route = useRoute()
 const router = useRouter()
 const categoryStore = useCategoryStore()
-const isLoading = ref(false)
+const isSubmitting = ref(false)
 const isFetching = ref(false)
-const file = ref<File | null>()
-// const form = ref<HTMLFormElement>()
+const categoryPhoto = ref<File | null>()
+const toast = useToast()
 
 const isEdit = computed (() => route.name === 'categories.edit')
 
@@ -36,36 +38,37 @@ async function onSubmit() {
 
   if (v$.value.$invalid)
     return true
-  isLoading.value = true
+  isSubmitting.value = true
 
   const data = {
     id: route.params.id,
     ...categoryStore.categoryData,
   }
 
+  if (categoryPhoto.value)
+    data.image = categoryPhoto.value.file
+
+  if (isEdit.value)
+    data._method = 'PUT'
   const action = isEdit.value
     ? categoryStore.updateCategory
     : categoryStore.addCategory
 
   try {
-    isLoading.value = true
-    await action(data)
+    isSubmitting.value = true
+    const res = await action(data)
+    if (res.data) {
+      toast.add({
+        severity: 'success',
+        detail: isEdit.value ? 'Category updated successfully' : 'Category created successfully',
+        life: 2000,
+      })
+    }
     router.push({ name: 'categories.index' })
   }
   finally {
-    // if (isEdit.value)
-    // toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 })
-    // else
-    // toast.add({ severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000 })
-
-    isLoading.value = false
+    isSubmitting.value = false
   }
-}
-
-function onFileChanged($event: Event) {
-  const target = $event.target as HTMLInputElement
-  if (target && target.files)
-    categoryStore.categoryData.image = target.files[0]
 }
 
 onBeforeUnmount(() => {
@@ -79,14 +82,17 @@ const pageHeader = {
     { label: 'Create', route: '/categories/create' },
   ],
 }
+
+function removeImage() {
+  categoryStore.categoryData.image = 'null'
+}
 </script>
 
 <template>
   <BasePage>
     <Toast />
     <BasePageHeader :data="pageHeader" />
-
-    <Card class="w-1/2 mt-6">
+    <Card v-if="!isFetching" class="w-full md:w-1/2 mt-6">
       <template #content>
         <form class="mt-18 text-left" @submit.prevent="onSubmit">
           <BaseInputGrid layout="column">
@@ -95,16 +101,9 @@ const pageHeader = {
               label="Image"
               required
             >
-              <InputText
-                type="file"
-                accept="image/*"
-                capture
-                @change="onFileChanged($event)"
-              />
-              <!-- <InputText v-model="categoryStore.categoryData.name" :invalid="v$.name.$error" /> -->
+              <BaseDropZone key="cover" v-model="categoryPhoto" :images="[categoryStore.categoryData.image]" class="!w-full" @remove="removeImage" />
             </BaseInputGroup>
-          </BaseInputGrid>
-          <BaseInputGrid layout="column">
+
             <BaseInputGroup
               :error="v$.name.$error && v$.name.$errors[0].$message"
               label="Name"
@@ -114,10 +113,10 @@ const pageHeader = {
             </BaseInputGroup>
           </BaseInputGrid>
           <Button
-            :disabled="isLoading"
+            :disabled="isSubmitting"
             type="submit"
             class="mt-8"
-            :loading="isLoading"
+            :loading="isSubmitting"
           >
             Save
           </Button>

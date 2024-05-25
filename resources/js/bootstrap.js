@@ -3,8 +3,9 @@
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
-import toastr from 'toastr'
 import axios from 'axios'
+import { useToast } from 'primevue/usetoast'
+
 window.axios = axios
 
 axios.defaults.withCredentials = true
@@ -21,9 +22,10 @@ axios.interceptors.response.use(
   },
   (error) => {
     const userStore = useUserStore()
+    const toast = useToast()
     const errors = JSON.parse(JSON.stringify(error.response.data.errors))
     for (const i in errors)
-      toastr.error(errors[i][0])
+      toast.add({ severity: 'error', detail: errors[i][0], life: 3000 })
 
     switch (error.response.status) {
       case 401: // Not logged in

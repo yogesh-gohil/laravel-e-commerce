@@ -20,8 +20,6 @@ const v$ = useVuelidate(
 )
 
 async function onSubmit() {
-  axios.defaults.withCredentials = true
-
   v$.value.$touch()
 
   if (v$.value.$invalid)
@@ -50,7 +48,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <form id="loginForm" class="text-left" @submit.prevent="onSubmit">
+  <form id="loginForm" class="text-left mt-10" @submit.prevent="onSubmit">
     <BaseInputGroup
       :error="v$.email.$error && v$.email.$errors[0].$message"
       label="Email"

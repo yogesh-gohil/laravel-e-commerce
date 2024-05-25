@@ -38,10 +38,11 @@ export default defineConfig({
             'between',
           ],
           '@vuelidate/core': ['useVuelidate'],
+          '@vueform/multiselect': ['Multiselect'],
         },
       ],
       dts: 'resources/js/auto-imports.d.ts',
-      dirs: ['resources/js/stores'],
+      dirs: ['resources/js/stores', 'resources/js/composables'],
       vueTemplate: true,
     }),
     // https://github.com/antfu/unplugin-vue-components

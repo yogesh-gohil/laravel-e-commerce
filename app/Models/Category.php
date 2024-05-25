@@ -24,14 +24,7 @@ class Category extends Model implements HasMedia
       if (! $image) {
           return null;
       }
-
-      if ($image->disk == 'local') {
-          return $image->getPath();
-      }
-
-      if ($image->disk == 'public') {
-          return $image->getFullUrl();
-      }
+      return $image;
   }
 
   public static function createCategory($payload)
@@ -43,6 +36,24 @@ class Category extends Model implements HasMedia
     }
 
     return $category;
+  }
+
+  public function updateCategory($payload)
+  {
+    $this->update($payload);
+
+    if (isset($payload['image']) && ($payload['image'] === null || $payload['image'] === 'null')) {
+      $this->clearMediaCollection('categories');
+    }
+
+    if (request()->hasFile('image')) {
+        $this->clearMediaCollection('categories');
+
+        $this->addMediaFromRequest('image')
+          ->toMediaCollection('categories');
+    }
+
+    return $this;
   }
 
   public function scopePaginateData($query, $limit)

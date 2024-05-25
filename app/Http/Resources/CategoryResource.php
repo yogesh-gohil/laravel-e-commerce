@@ -18,6 +18,7 @@ class CategoryResource extends JsonResource
           'id' => $this->id,
           'name' => $this->name,
           'image' => $this->image,
+          'cover_url' => $this->image->original_url ?? null,
           'parent_id' => $this->parent_id,
           'created_at' => $this->created_at,
         ];
