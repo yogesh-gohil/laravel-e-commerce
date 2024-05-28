@@ -47,7 +47,7 @@ const fileEmitValue = () => {
 
 const onDrop = (e) => {
   setInactive()
-  addFiles(e.dataTransfer.files)
+  addFiles(e.dataTransfer.files, props.multiple)
   emit('onDrop', fileEmitValue())
   emit('update:modelValue', fileEmitValue())
 }
@@ -57,7 +57,7 @@ const preventDefaults = (e) => {
 }
 
 const onInputChange = (e) => {
-  addFiles(e.target.files)
+  addFiles(e.target.files, props.multiple)
 
   emit('onChange', fileEmitValue())
   emit('update:modelValue', fileEmitValue())
@@ -72,7 +72,7 @@ const emitRemove = (file) => {
 }
 
 const setImages = () => {
-  if (toRaw(props.images)) {
+  if (toRaw(props.images?.length)) {
     props.images.forEach((image) => {
       addLocalFile(image)
     })
@@ -111,7 +111,7 @@ onUnmounted(() => {
 
       <input v-bind="$attrs" :id="`file-input-${uniqid}`" type="file" class="opacity-0 cursor-pointer hidden" :multiple="multiple" @change="onInputChange">
     </label>
-    <ul v-if="files.length || images.length" class="flex flex-wrap list-none" :class="!multiple ? 'justify-center items-center' : ''">
+    <ul v-if="files.length || images?.length" class="flex flex-wrap list-none" :class="!multiple ? 'justify-center items-center' : ''">
       <BaseFilePreview v-for="file of files" :key="file.id" :file="file" tag="li" @remove="emitRemove" />
     </ul>
   </div>

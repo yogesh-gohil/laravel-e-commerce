@@ -4,6 +4,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -28,6 +29,8 @@ class CategoryRequest extends FormRequest
             ],
             'image' => [
               'nullable',
+              Rule::when(isset($this->image) && ($this->image != 'null'),
+              ['file', 'mimes:gif,jpg,png', 'max:1000']),
             ],
         ];
 

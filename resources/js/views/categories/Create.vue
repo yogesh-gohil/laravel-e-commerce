@@ -8,6 +8,7 @@ const isSubmitting = ref(false)
 const isFetching = ref(false)
 const categoryPhoto = ref<File | null>()
 const toast = useToast()
+const { categoryCreateHeader, categoryEditHeader } = usePageHeader()
 
 const isEdit = computed (() => route.name === 'categories.edit')
 
@@ -45,6 +46,9 @@ async function onSubmit() {
     ...categoryStore.categoryData,
   }
 
+  if (data.image !== 'null')
+    delete data.image
+
   if (categoryPhoto.value)
     data.image = categoryPhoto.value.file
 
@@ -75,13 +79,6 @@ onBeforeUnmount(() => {
   categoryStore.resetData()
   v$.value.$reset()
 })
-const pageHeader = {
-  title: 'New Category',
-  breadcrumb: [
-    { label: 'Categories', route: '/categories' },
-    { label: 'Create', route: '/categories/create' },
-  ],
-}
 
 function removeImage() {
   categoryStore.categoryData.image = 'null'
@@ -91,7 +88,7 @@ function removeImage() {
 <template>
   <BasePage>
     <Toast />
-    <BasePageHeader :data="pageHeader" />
+    <BasePageHeader :data="isEdit ? categoryEditHeader(categoryStore.categoryData) : categoryCreateHeader" />
     <Card v-if="!isFetching" class="w-full md:w-1/2 mt-6">
       <template #content>
         <form class="mt-18 text-left" @submit.prevent="onSubmit">

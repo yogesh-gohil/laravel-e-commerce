@@ -3,9 +3,12 @@ import { ref } from 'vue'
 export function useFileList() {
   const files = ref([])
 
-  const addFiles = (newFiles) => {
+  const addFiles = (newFiles, multiple) => {
     const newUploadableFiles = [...newFiles].map(file => new UploadableFile(file)).filter(file => !fileExists(file.id))
-    files.value = files.value.concat(newUploadableFiles)
+    if (multiple)
+      files.value = files.value.concat(newUploadableFiles)
+    else
+      files.value = newUploadableFiles
   }
 
   function fileExists(otherId) {
@@ -20,8 +23,10 @@ export function useFileList() {
   }
 
   function addLocalFile(file) {
-    const data = { id: file.id, url: file.original_url, name: file.name }
-    files.value = files.value.concat(data)
+    if (file) {
+      const data = { id: file.id ? file.id : null, url: file.original_url, name: file.name }
+      files.value = files.value.concat(data)
+    }
   }
 
   return { files, addFiles, removeFile, addLocalFile }

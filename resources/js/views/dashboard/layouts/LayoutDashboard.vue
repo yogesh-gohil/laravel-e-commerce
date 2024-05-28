@@ -27,5 +27,6 @@ onMounted(async () => {
         <RouterView />
       </div>
     </main>
+    <Toast />
   </div>
 </template>

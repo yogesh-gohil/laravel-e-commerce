@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\File;
 
 
 class ProductRequest extends FormRequest
@@ -33,16 +32,12 @@ class ProductRequest extends FormRequest
             ],
             'cover_photo' => [
                 'nullable',
-                File::image()
-                    ->types(['png', 'jpeg', 'jpg'])
-                    ->max('1mb'),
+                Rule::when(isset($this->cover_photo) && ($this->cover_photo != 'null'),
+                    ['file', 'mimes:gif,jpg,png', 'max:1000']),
             ],
             'photos' => [
                 'nullable',
                 'array',
-                // File::image()
-                //     ->types(['png', 'jpeg', 'jpg'])
-                //     ->max('1mb'),
             ],
             'removed_photos' => [
                 'nullable',
@@ -82,7 +77,6 @@ class ProductRequest extends FormRequest
     {
         return collect($this->validated())
             ->except([
-                'cover_photo',
                 'photos',
             ])
             ->toArray();

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import Multiselect from '@vueform/multiselect'
-
 import { useToast } from 'primevue/usetoast'
+
 const route = useRoute()
 const router = useRouter()
 const productStore = useProductStore()
 const categoryStore = useCategoryStore()
 const isLoading = ref(false)
 const isFetching = ref(false)
-const { productCreateHeader } = usePageHeader()
+const { productCreateHeader, productEditHeader } = usePageHeader()
 const isEdit = computed (() => route.name === 'products.edit')
 const coverPhoto = ref(null)
 const otherPhotos = ref([])
@@ -63,17 +63,25 @@ const onSubmit = async () => {
   if (v$.value.$invalid)
     return true
 
-  isLoading.value = true
-
   const data = {
     id: route.params.id,
     ...productStore.currentProduct,
-    photos: otherPhotos.value.map(photo => photo.file ? photo.file : null).filter(p => p !== null),
     removed_photos: removedPhotos.value,
   }
 
+  if (data.cover_photo !== 'null')
+    delete data.cover_photo
+
   if (coverPhoto.value)
     data.cover_photo = coverPhoto.value?.file
+
+  if (otherPhotos.value)
+    data.photos = otherPhotos.value.map(photo => photo.file ? photo.file : null).filter(p => p !== null)
+  else
+    delete data.photos
+
+  if (isEdit.value)
+    data._method = 'PUT'
 
   const action = isEdit.value
     ? productStore.updateProduct
@@ -113,7 +121,7 @@ const removeCoverPhoto = () => {
 
 <template>
   <BasePage>
-    <BasePageHeader :data="productCreateHeader" />
+    <BasePageHeader :data="isEdit ? productEditHeader(productStore.currentProduct) : productCreateHeader" />
 
     <Card v-if="!isFetching" class="w-full mt-6">
       <template #content>
@@ -122,7 +130,7 @@ const removeCoverPhoto = () => {
             label="Product Cover"
             class="mb-6"
           >
-            <BaseDropZone key="cover" v-model="coverPhoto" :images="[productStore.currentProduct.cover_photo]" @remove="removeCoverPhoto" />
+            <BaseDropZone key="cover" v-model="coverPhoto" :images="productStore.currentProduct.cover_photo && [productStore.currentProduct.cover_photo]" @remove="removeCoverPhoto" />
           </BaseInputGroup>
 
           <BaseInputGrid>
@@ -180,7 +188,7 @@ const removeCoverPhoto = () => {
               <InputNumber v-model="productStore.currentProduct.stock" />
             </BaseInputGroup>
           </BaseInputGrid>
-          <BaseDropZone key="photos" v-model="otherPhotos" multiple class="mt-6" :images="productStore.currentProduct.product_photos" @remove="removePhotos" />
+          <BaseDropZone key="photos" v-model="otherPhotos" multiple class="mt-6" :images="productStore.currentProduct.photos" @remove="removePhotos" />
           <Button
             :disabled="isLoading"
             type="submit"
@@ -192,5 +200,6 @@ const removeCoverPhoto = () => {
         </form>
       </template>
     </Card>
+    <Toast />
   </BasePage>
 </template>

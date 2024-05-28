@@ -92,6 +92,7 @@ class Product extends Model implements HasMedia
 
   public function updateProduct($request) {
     $product = self::find($this->id);
+
     $payload = $request->getProductPayload();
 
     $this->update($payload);
@@ -111,6 +112,10 @@ class Product extends Model implements HasMedia
             ->each(function ($fileAdder) {
             $fileAdder->toMediaCollection('product_photos');
         });
+    }
+
+    if (isset($payload['cover_photo']) && ($payload['cover_photo'] === null || $payload['cover_photo'] === 'null')) {
+        $product->clearMediaCollection('cover_photo');
     }
 
     if (request()->hasFile('cover_photo')) {

@@ -1,18 +1,12 @@
 <script setup>
-const pageHeader = {
-  title: 'Categories',
-  breadcrumb: [
-    { label: 'Categories', route: '/categories' },
-  ],
-}
-const route = useRoute()
-const router = useRouter()
 const categoryStore = useCategoryStore()
 const totalRecords = ref(0)
 const loading = ref(false)
+const { categoryIndexHeader } = usePageHeader()
+const LIMIT = 5
 const params = reactive({
-  page: 0,
-  limit: 5,
+  page: 1,
+  limit: LIMIT,
 })
 
 fetchCategories()
@@ -28,7 +22,7 @@ async function fetchCategories() {
 }
 
 function onPage({ page }) {
-  params.page += page
+  params.page = page + 1
   fetchCategories()
 }
 
@@ -39,7 +33,7 @@ function toggle(event) {
 
 <template>
   <BasePage>
-    <BasePageHeader :data="pageHeader">
+    <BasePageHeader :data="categoryIndexHeader">
       <template #actions>
         <RouterLink :to="{ name: 'categories.create' }">
           <Button label="Add Category" icon="pi pi-plus" />
@@ -56,7 +50,7 @@ function toggle(event) {
     <DataTable
       v-else
       :value="categoryStore.categories"
-      :rows="5"
+      :rows="LIMIT"
       :total-records="totalRecords"
       :loading="loading"
       striped-rows
@@ -68,7 +62,7 @@ function toggle(event) {
     >
       <Column field="cover_url" header="Image">
         <template #body="slotProps">
-          <img :src="slotProps.data.cover_url" class="h-10 w-10 rounded-md">
+          <img :src="slotProps.data.cover_url ?? '/images/default.png'" class="h-10 w-10 rounded-md object-contain">
         </template>
       </Column>
       <Column field="name" header="Name" />

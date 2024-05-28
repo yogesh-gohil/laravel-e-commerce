@@ -58,7 +58,7 @@ function onPage({ page }) {
     >
       <Column field="cover_url" header="Cover photo">
         <template #body="slotProps">
-          <img :src="slotProps.data.cover_url" class="h-10 w-10 rounded-md">
+          <img :src="slotProps.data.cover_url ?? '/images/default.png'" class="h-10 w-10 rounded-md object-contain">
         </template>
       </Column>
       <Column field="name" header="Name" />
