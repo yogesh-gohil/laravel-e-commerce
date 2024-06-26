@@ -66,7 +66,7 @@ This open-source e-commerce dashboard is built using Laravel and Vue.js, providi
 
 ## License
 
-Crater is released under the GNU GENERAL PUBLIC LICENSE Version 3.
+Laravel e commerce app is released under the GNU GENERAL PUBLIC LICENSE Version 3.
 See [LICENSE](LICENSE) for details.
 
 ## Acknowledgements
