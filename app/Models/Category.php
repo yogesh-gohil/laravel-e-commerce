@@ -4,18 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Kalnoy\Nestedset\NodeTrait;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 
 class Category extends Model implements HasMedia
 {
-  use NodeTrait;
   use HasFactory;
   use InteractsWithMedia;
 
+    use NodeTrait, Sluggable {
+        NodeTrait::replicate as replicateNodeTrait;
+        Sluggable::replicate as replicateSluggable;
+    }
+
+    public function replicate(array $except = null)
+    {
+        $this->replicateNodeTrait();
+        $this->replicateSluggable();
+    }
 
   protected $guarded = ['id'];
+
+  public function sluggable(): array
+  {
+    return [
+        'slug' => [
+            'source' => 'name'
+        ]
+    ];
+  }
 
   public function getImageAttribute()
   {

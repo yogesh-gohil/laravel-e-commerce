@@ -30,7 +30,7 @@ class CategoryRequest extends FormRequest
             'image' => [
               'nullable',
               Rule::when(isset($this->image) && ($this->image != 'null'),
-              ['file', 'mimes:gif,jpg,png', 'max:1000']),
+              ['file', 'mimes:gif,jpg,jpeg,png,webp', 'max:1000']),
             ],
         ];
 

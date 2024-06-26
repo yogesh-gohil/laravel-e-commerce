@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Shop\Auth\LoginController;
+use App\Http\Controllers\Shop\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', LoginController::class);
@@ -18,4 +19,7 @@ Route::post('/login', LoginController::class);
 // Route::get('/products/{product}', ProductController::class);
 
 // Route::get('/products', ProductsController::class);
+
+// Category Routes
+Route::get('/categories', CategoryController::class);
 

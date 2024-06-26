@@ -11,6 +11,7 @@ const props = defineProps({
   },
 })
 const home = {
+  name: 'Home',
   icon: 'pi pi-home',
   route: '/dashboard',
 }

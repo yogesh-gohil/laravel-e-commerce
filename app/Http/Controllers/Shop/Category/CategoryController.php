@@ -13,7 +13,7 @@ class CategoryController extends Controller
     {
         $limit = $request->has('limit') ? $request->limit : 'all';
 
-        $categories = Category::all()->paginateData($limit);;
+        $categories = Category::paginateData($limit);
 
         return CategoryResource::collection($categories);
     }
