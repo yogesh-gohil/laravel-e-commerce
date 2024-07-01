@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
@@ -28,6 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('categories', CategoryController::class);
 
     Route::apiResource('products', ProductController::class);
+
+    Route::apiResource('banners', BannerController::class);
 
     Route::get('/user', function (Request $request) {
         return new UserResource($request->user());

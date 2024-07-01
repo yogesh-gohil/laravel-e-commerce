@@ -63,6 +63,21 @@ const routes = [
         name: 'products.edit',
         component: () => import('@/js/views/products/Create.vue'),
       },
+      {
+        path: 'banners',
+        name: 'banners.index',
+        component: () => import('@/js/views/banners/Index.vue'),
+      },
+      {
+        path: 'banners/create',
+        name: 'banners.create',
+        component: () => import('@/js/views/banners/Create.vue'),
+      },
+      {
+        path: 'banners/:id/edit',
+        name: 'banners.edit',
+        component: () => import('@/js/views/banners/Create.vue'),
+      },
     ],
   },
   // {

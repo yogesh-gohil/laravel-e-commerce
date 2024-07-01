@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Shop\Auth\LoginController;
+use App\Http\Controllers\Shop\Banner\BannerController;
 use App\Http\Controllers\Shop\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,7 @@ Route::post('/login', LoginController::class);
 
 // Category Routes
 Route::get('/categories', CategoryController::class);
+
+// Banner Routes
+Route::get('/banner', BannerController::class);
 

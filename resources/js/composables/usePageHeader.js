@@ -52,6 +52,32 @@ export function usePageHeader() {
       ],
     }
   }
+  // Banner Headers
+  const bannerIndexHeader = {
+    title: 'Banners',
+    breadcrumb: [
+      { label: 'Banners', route: '/banners' },
+    ],
+  }
+  const bannerCreateHeader = {
+    title: 'New Banner',
+    breadcrumb: [
+      { label: 'Banners', route: '/banners' },
+      { label: 'Create', route: '/banners/create' },
+    ],
+  }
+
+  const bannerEditHeader = (banner) => {
+    return {
+
+      title: 'Edit Banner',
+      breadcrumb: [
+        { label: 'Banners', route: '/banners' },
+        { label: 'Edit', route: `/banners/${banner.id}/edit` },
+        { label: banner.name, route: '#' },
+      ],
+    }
+  }
 
   return {
     productIndexHeader,
@@ -60,5 +86,8 @@ export function usePageHeader() {
     categoryIndexHeader,
     categoryCreateHeader,
     categoryEditHeader,
+    bannerIndexHeader,
+    bannerCreateHeader,
+    bannerEditHeader,
   }
 }

@@ -15,7 +15,7 @@ const routes = ref([
   },
   {
     route: '/categories',
-    name: 'Category',
+    name: 'Categories',
     icon: 'pi pi-th-large',
     active_route: 'categories',
   },
@@ -24,6 +24,12 @@ const routes = ref([
     name: 'Products',
     icon: 'pi pi-shopping-bag',
     active_route: 'products',
+  },
+  {
+    route: '/banners',
+    name: 'Banners',
+    icon: 'pi pi-image',
+    active_route: 'banner',
 
   },
 ])
@@ -43,7 +49,7 @@ const isActiveRoute = (activeRoute) => {
     </div>
     <div class="overflow-y-auto mt-4">
       <ul class="list-none px-4 m-0 overflow-hidden">
-        <li v-for="(routeItem, i) in routes" :key="i">
+        <li v-for="(routeItem, i) in routes" :key="i" class="mb-1">
           <router-link
             :key="routeItem"
             v-ripple
