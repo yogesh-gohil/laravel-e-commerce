@@ -3,6 +3,7 @@
 use App\Http\Controllers\Shop\Auth\LoginController;
 use App\Http\Controllers\Shop\Banner\BannerController;
 use App\Http\Controllers\Shop\Category\CategoryController;
+use App\Http\Controllers\Shop\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', LoginController::class);
@@ -17,9 +18,9 @@ Route::post('/login', LoginController::class);
 // Product Routes
 //----------------------------------
 
-// Route::get('/products/{product}', ProductController::class);
+Route::get('/products/{product:slug}', [ProductController::class, 'show']);
 
-// Route::get('/products', ProductsController::class);
+Route::get('/products', [ProductController::class, 'index']);
 
 // Category Routes
 Route::get('/categories', CategoryController::class);

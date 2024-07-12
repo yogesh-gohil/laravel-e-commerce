@@ -6,7 +6,6 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Avatar: typeof import('primevue/avatar')['default']
-    Badge: typeof import('primevue/badge')['default']
     BaseDateFormat: typeof import('./components/base/BaseDateFormat.vue')['default']
     BaseDropZone: typeof import('./components/base/base-file-uploader/BaseDropZone.vue')['default']
     BaseEditor: typeof import('./components/base/base-editor/BaseEditor.vue')['default']
@@ -25,6 +24,7 @@ declare module '@vue/runtime-core' {
     Column: typeof import('primevue/column')['default']
     DashboardStats: typeof import('./components/base/DashboardStats.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    InputNumber: typeof import('primevue/inputnumber')['default']
     InputSwitch: typeof import('primevue/inputswitch')['default']
     InputText: typeof import('primevue/inputtext')['default']
     ItalicIcon: typeof import('./components/base/base-editor/icons/ItalicIcon.vue')['default']
