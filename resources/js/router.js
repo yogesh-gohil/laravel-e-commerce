@@ -78,6 +78,21 @@ const routes = [
         name: 'banners.edit',
         component: () => import('@/js/views/banners/Create.vue'),
       },
+      {
+        path: 'brands',
+        name: 'brands.index',
+        component: () => import('@/js/views/brands/Index.vue'),
+      },
+      {
+        path: 'brands/create',
+        name: 'brands.create',
+        component: () => import('@/js/views/brands/Create.vue'),
+      },
+      {
+        path: 'brands/:id/edit',
+        name: 'brands.edit',
+        component: () => import('@/js/views/brands/Create.vue'),
+      },
     ],
   },
   // {

@@ -30,7 +30,12 @@ const routes = ref([
     name: 'Banners',
     icon: 'pi pi-image',
     active_route: 'banner',
-
+  },
+  {
+    route: '/brands',
+    name: 'Brands',
+    icon: 'pi pi-image',
+    active_route: 'brands',
   },
 ])
 const isActiveRoute = (activeRoute) => {

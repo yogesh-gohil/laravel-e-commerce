@@ -52,6 +52,7 @@ export function usePageHeader() {
       ],
     }
   }
+
   // Banner Headers
   const bannerIndexHeader = {
     title: 'Banners',
@@ -79,6 +80,33 @@ export function usePageHeader() {
     }
   }
 
+  // Brand Headers
+  const brandIndexHeader = {
+    title: 'Brands',
+    breadcrumb: [
+      { label: 'Brands', route: '/brands' },
+    ],
+  }
+  const brandCreateHeader = {
+    title: 'New Brand',
+    breadcrumb: [
+      { label: 'Brands', route: '/brands' },
+      { label: 'Create', route: '/brands/create' },
+    ],
+  }
+
+  const brandEditHeader = (brand) => {
+    return {
+
+      title: 'Edit Brand',
+      breadcrumb: [
+        { label: 'Brands', route: '/brands' },
+        { label: 'Edit', route: `/brands/${brand.id}/edit` },
+        { label: brand.name, route: '#' },
+      ],
+    }
+  }
+
   return {
     productIndexHeader,
     productCreateHeader,
@@ -89,5 +117,8 @@ export function usePageHeader() {
     bannerIndexHeader,
     bannerCreateHeader,
     bannerEditHeader,
+    brandIndexHeader,
+    brandCreateHeader,
+    brandEditHeader,
   }
 }
